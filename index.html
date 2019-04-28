@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <center><h2>CyberMinds Home Test</h2></center>
+
+    Word: <input type="text" id="newWord" value="" />
+
+    <button type="button" onclick="addNewWord()">Add Word</button>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    Word: <input type="text" id="getWords" value="" />
+
+    <button type="button" onclick="getWords()">Get nearst words</button>
+    <div>Result:</div>
+    <div id="result"></div>
+    <script>
+      function getWords() {
+        var word = document.getElementById("getWords").value;
+        if (word == "") {
+          alert("Error. Empty string");
+          return;
+        }
+        var url =
+          "http://localhost:8080/restful_war_exploded/test/get?match=" + word;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("result").innerHTML = this.responseText;
+            alert("Done");
+          }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
+        xhttp.send();
+      }
+
+      function addNewWord() {
+        var word = document.getElementById("newWord").value;
+        if (word == "") {
+          alert("Error. Empty string");
+          return;
+        }
+        var url =
+          "http://localhost:8080/restful_war_exploded/test/add?insert=" + word;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            alert(this.responseText);
+          }
+        };
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
+        xhttp.send();
+      }
+    </script>
+  </body>
+</html>
